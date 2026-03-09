@@ -5,7 +5,7 @@ class Solution(object):
         ans = 0
         
         while low <= high:
-            mid = (low + high) 
+            mid = (low + high)//2
             if mid * mid == x:
                 return mid
             elif mid * mid < x:
