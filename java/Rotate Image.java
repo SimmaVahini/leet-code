@@ -1,51 +1,31 @@
-import java.util.*;
-
 class Solution {
-    public List<List<Integer>> permuteUnique(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
+    public void rotate(int[][] matrix) {
 
-        // Sort the array so duplicates come together
-        Arrays.sort(nums);
+        int n = matrix.length;
 
-        boolean[] visited = new boolean[nums.length];
+        // Transpose the matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
 
-        backtrack(nums, visited, new ArrayList<>(), ans);
-
-        return ans;
-    }
-
-    private void backtrack(int[] nums, boolean[] visited,
-                           List<Integer> temp,
-                           List<List<Integer>> ans) {
-
-        // Base Case
-        if (temp.size() == nums.length) {
-            ans.add(new ArrayList<>(temp));
-            return;
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
         }
 
-        for (int i = 0; i < nums.length; i++) {
+        // Reverse each row
+        for (int i = 0; i < n; i++) {
+            int left = 0;
+            int right = n - 1;
 
-            // Skip if already used
-            if (visited[i]) {
-                continue;
+            while (left < right) {
+                int temp = matrix[i][left];
+                matrix[i][left] = matrix[i][right];
+                matrix[i][right] = temp;
+
+                left++;
+                right--;
             }
-
-            // Skip duplicate elements
-            if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
-                continue;
-            }
-
-            // Choose
-            visited[i] = true;
-            temp.add(nums[i]);
-
-            // Recur
-            backtrack(nums, visited, temp, ans);
-
-            // Backtrack
-            temp.remove(temp.size() - 1);
-            visited[i] = false;
         }
     }
 }
